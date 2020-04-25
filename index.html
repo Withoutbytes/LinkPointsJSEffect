@@ -1,0 +1,123 @@
+<html>
+    <head>
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas></canvas>
+        <script>
+            let canvas = document.querySelector("canvas");
+            canvas.style.background = "black";
+            canvas.style.margin = 0;
+            canvas.width = innerWidth*.999;
+            canvas.height = innerHeight*.999;
+            let ctx = canvas.getContext("2d");
+
+            let objects = [];
+
+            let minDistance = 73;
+
+            class Vec2 {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                }
+
+                Distance(vec) {
+                    return Math.sqrt((this.x - vec.x)**2 + (this.y - vec.y)**2);
+                }
+            }
+
+            const Rand = (max = 1, min = 0) => Math.random() * max + min;
+
+
+            class Point {
+                constructor(pos, r = 2, c = "white", velocity = new Vec2(1, 1)) {
+                    this.pos = pos;
+                    this.radius = r;
+                    this.color = c;
+                    this.velocity = velocity;
+                }
+
+                IsOutCanvas() {
+                    let p = this.pos;
+                    let w = canvas.width;
+                    let h = canvas.height;
+                    return (p.x > w || p.y > h || p.x < 0 || p.y < 0);
+                }
+
+                update() {
+                    this.pos.x += this.velocity.x;
+                    this.pos.y += this.velocity.y;
+
+                    // this.velocity.x *= Math.random()>.01?1:-1;
+                    // this.velocity.y *= Math.random()>.01?1:-1;
+                    if (this.IsOutCanvas()) {
+                        this.pos = new Vec2(Rand(canvas.width), Rand(canvas.height));
+                        this.velocity.x *= Math.random()>.5?1:-1;
+                        this.velocity.y *= Math.random()>.5?1:-1;
+                    }
+                }
+
+                draw() {
+                    ctx.beginPath();
+                    ctx.fillStyle = this.color;
+                    ctx.ellipse(this.pos.x, this.pos.y, this.radius, this.radius, 0, Math.PI*2, false);
+                    ctx.fill();
+                    ctx.closePath();
+                }
+
+            }
+
+            function init() {
+                for (let i = 0; i < 100; i++) {
+                    objects.push(new Point(new Vec2(Rand(canvas.width), Rand(canvas.height)), 1.4, "#61ca80", new Vec2(Math.random()>.5?.4:-.4, Math.random()>.5?.4:-.4)));
+                    
+                }
+            }
+
+
+            function update() {
+                for (const o of objects) {
+                    o.update();
+                }
+            }
+
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                for (const o of objects) {
+                    o.draw();
+                    for (const o1 of objects) {
+                        if (o1 !== o) {
+                            if (o.pos.Distance(o1.pos) <= minDistance) {
+                                ctx.beginPath();
+                                ctx.moveTo(o.pos.x, o.pos.y);
+                                ctx.lineTo(o1.pos.x, o1.pos.y);
+                                ctx.closePath();
+                                ctx.strokeStyle = "#61ca80";
+                                ctx.stroke();
+                            }
+                        }
+                    }
+                }
+            }
+
+
+            function loop() {
+                update();
+                draw();
+
+                requestAnimationFrame(loop);
+            }
+
+            init();
+            loop();
+
+        </script>
+    </body>
+</html>
