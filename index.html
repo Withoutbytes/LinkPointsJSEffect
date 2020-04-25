@@ -12,8 +12,12 @@
             let canvas = document.querySelector("canvas");
             canvas.style.background = "black";
             canvas.style.margin = 0;
-            canvas.width = innerWidth*.999;
-            canvas.height = innerHeight*.999;
+            canvas.width = innerWidth;
+            canvas.height = innerHeight;
+
+            canvas.style.width = "100vw";
+            canvas.style.height = "100vh";
+
             let ctx = canvas.getContext("2d");
 
             let objects = [];
