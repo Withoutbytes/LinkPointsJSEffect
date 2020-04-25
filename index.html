@@ -79,7 +79,7 @@
 
             function init() {
                 for (let i = 0; i < 100; i++) {
-                    objects.push(new Point(new Vec2(Rand(canvas.width), Rand(canvas.height)), 1.4, "#61ca80", new Vec2(Math.random()>.5?.4:-.4, Math.random()>.5?.4:-.4)));
+                    objects.push(new Point(new Vec2(Rand(canvas.width), Rand(canvas.height)), 1.4, "#61ca80", new Vec2(Math.random()>.5?Math.random():-Math.random(), Math.random()>.5?Math.random():-Math.random())));
                     
                 }
             }
