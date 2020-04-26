@@ -58,12 +58,12 @@
                     this.pos.x += this.velocity.x;
                     this.pos.y += this.velocity.y;
 
-                    // this.velocity.x *= Math.random()>.01?1:-1;
-                    // this.velocity.y *= Math.random()>.01?1:-1;
+                    // this.velocity.x *= Rand()>.01?1:-1;
+                    // this.velocity.y *= Rand()>.01?1:-1;
                     if (this.IsOutCanvas()) {
                         this.pos = new Vec2(Rand(canvas.width), Rand(canvas.height));
-                        this.velocity.x *= Math.random()>.5?1:-1;
-                        this.velocity.y *= Math.random()>.5?1:-1;
+                        this.velocity.x *= Rand()>.5?1:-1;
+                        this.velocity.y *= Rand()>.5?1:-1;
                     }
                 }
 
@@ -79,7 +79,7 @@
 
             function init() {
                 for (let i = 0; i < 100; i++) {
-                    objects.push(new Point(new Vec2(Rand(canvas.width), Rand(canvas.height)), 1.4, "#61ca80", new Vec2(Math.random()>.5?Math.random():-Math.random(), Math.random()>.5?Math.random():-Math.random())));
+                    objects.push(new Point(new Vec2(Rand(canvas.width), Rand(canvas.height)), 1.4, "#61ca80", new Vec2(Rand()>.5?Rand():-Rand(), Rand()>.5?Rand():-Rand())));
                     
                 }
             }
